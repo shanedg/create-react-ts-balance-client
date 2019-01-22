@@ -2,7 +2,8 @@
 
 // tslint:disable-next-line:import-name
 import React, { Component } from 'react';
-import logoSvg from './logo.svg';
+
+import CustomInput from './CustomInput';
 
 import './App.scss';
 
@@ -19,28 +20,30 @@ class App extends Component {
   }
 }
 
-/**
- * Define properties of CustomForm state.
- */
-interface ICustomInputState {
-  formValue: string;
+interface ICustomFormState {
+  input: any;
 }
 
-class CustomForm extends Component<{}, ICustomInputState> {
+class CustomForm extends Component<{}, ICustomFormState> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      formValue: '',
+      input: '',
     };
 
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   public render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <CustomInput></CustomInput>
+        <CustomInput
+          label="asdf"
+          onChange={this.handleChange}
+          input={this.state.input}
+        ></CustomInput>
         <input
           type="submit"
           value="Submit"
@@ -50,46 +53,21 @@ class CustomForm extends Component<{}, ICustomInputState> {
   }
 
   /**
-   * Handle form submission.
-   * @param {any} event Form submit event.
-   */
-  private handleSubmit(event: any) {
-    event.preventDefault();
-  }
-}
-
-class CustomInput extends Component<{}, ICustomInputState> {
-  constructor(props: any) {
-    super(props);
-
-    this.state = {
-      formValue: '',
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  public render() {
-    return (
-      <label>
-        test:
-        <input
-          type="text"
-          value={this.state.formValue}
-          onChange={this.handleChange}
-        />
-      </label>
-    );
-  }
-
-  /**
    * Update state based on change to input.
    * @param {any} event Input change event.
    */
   private handleChange(event: any) {
     this.setState({
-      formValue: event.target.value,
+      input: event.target.value,
     });
+  }
+
+  /**
+   * Handle form submission.
+   * @param {any} event Form submit event.
+   */
+  private handleSubmit(event: any) {
+    event.preventDefault();
   }
 }
 
