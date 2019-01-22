@@ -5,7 +5,9 @@ import React, { Component } from 'react';
 import CustomInput from './CustomInput';
 
 interface ICustomFormState {
-  input: any;
+  amount: number | '';
+  description: string;
+  name: string;
 }
 
 class CustomForm extends Component<{}, ICustomFormState> {
@@ -13,10 +15,14 @@ class CustomForm extends Component<{}, ICustomFormState> {
     super(props);
 
     this.state = {
-      input: '',
+      amount: '',
+      description: '',
+      name: '',
     };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleAmountChange = this.handleAmountChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -24,19 +30,19 @@ class CustomForm extends Component<{}, ICustomFormState> {
     return (
       <form onSubmit={this.handleSubmit}>
         <CustomInput
-          label="asdf"
-          onChange={this.handleChange}
-          input={this.state.input}
+          label="name"
+          onChange={this.handleNameChange}
+          input={this.state.name}
         ></CustomInput>
         <CustomInput
-          label="asdf"
-          onChange={this.handleChange}
-          input={this.state.input}
+          label="description"
+          onChange={this.handleDescriptionChange}
+          input={this.state.description}
         ></CustomInput>
         <CustomInput
-          label="asdf"
-          onChange={this.handleChange}
-          input={this.state.input}
+          label="amount"
+          onChange={this.handleAmountChange}
+          input={this.state.amount}
         ></CustomInput>
         <Button
           onSubmit={this.handleSubmit}
@@ -50,9 +56,29 @@ class CustomForm extends Component<{}, ICustomFormState> {
    * Update state based on change to input.
    * @param {any} event Input change event.
    */
-  private handleChange(event: any) {
+  private handleNameChange(event: any) {
     this.setState({
-      input: event.target.value,
+      name: event.target.value,
+    });
+  }
+
+  /**
+   * Update state based on change to input.
+   * @param {any} event Input change event.
+   */
+  private handleDescriptionChange(event: any) {
+    this.setState({
+      description: event.target.value,
+    });
+  }
+
+  /**
+   * Update state based on change to input.
+   * @param {any} event Input change event.
+   */
+  private handleAmountChange(event: any) {
+    this.setState({
+      amount: event.target.value,
     });
   }
 
