@@ -1,5 +1,3 @@
-// tslint:disable:max-classes-per-file
-
 // tslint:disable-next-line:import-name
 import React, { Component } from 'react';
 
