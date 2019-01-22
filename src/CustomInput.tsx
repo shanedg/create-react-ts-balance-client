@@ -1,3 +1,5 @@
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 // tslint:disable-next-line:import-name
 import React, { Component } from 'react';
 
@@ -26,14 +28,13 @@ class CustomInput extends Component<ICustomInputProps, ICustomInputState> {
     const label = this.props.label || '';
 
     return (
-      <label>
+      <InputLabel>
         {label}:
-        <input
-          type="text"
-          value={this.props.input}
+        <Input
           onChange={this.props.onChange}
-        />
-      </label>
+          value={this.props.input}
+        ></Input>
+      </InputLabel>
     );
   }
 

@@ -1,3 +1,4 @@
+import Paper from '@material-ui/core/Paper';
 // tslint:disable-next-line:import-name
 import React, { Component } from 'react';
 
@@ -12,7 +13,11 @@ class App extends Component {
   public render() {
     return (
       <div className="App">
-        <CustomForm></CustomForm>
+        <Paper
+          elevation={4}
+        >
+          <CustomForm></CustomForm>
+        </Paper>
       </div>
     );
   }

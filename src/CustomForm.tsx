@@ -1,3 +1,4 @@
+import Button from '@material-ui/core/Button';
 // tslint:disable-next-line:import-name
 import React, { Component } from 'react';
 
@@ -27,10 +28,20 @@ class CustomForm extends Component<{}, ICustomFormState> {
           onChange={this.handleChange}
           input={this.state.input}
         ></CustomInput>
-        <input
-          type="submit"
-          value="Submit"
-        />
+        <CustomInput
+          label="asdf"
+          onChange={this.handleChange}
+          input={this.state.input}
+        ></CustomInput>
+        <CustomInput
+          label="asdf"
+          onChange={this.handleChange}
+          input={this.state.input}
+        ></CustomInput>
+        <Button
+          onSubmit={this.handleSubmit}
+          variant="contained"
+        >Submit</Button>
       </form>
     );
   }
