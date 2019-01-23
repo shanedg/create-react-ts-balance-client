@@ -1,22 +1,67 @@
 // tslint:disable-next-line:import-name
 import React, { Component } from 'react';
 
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import {
+  Input,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@material-ui/core';
 
 import CustomForm from './CustomForm';
 
 import './App.scss';
 
 /**
+ * Transaction.
+ */
+interface ITransaction {
+  id?: number;
+  name: string;
+  amount: number;
+  due: string;
+  scheduled: string;
+  effective: string;
+  /**
+   * TODO: might want to handle these as more than strings, lessons learned...
+   */
+  fromAccount: any;
+  toAccount: any;
+  bucket: any;
+
+  created_at?: string;
+  updated_at?: string;
+
+  [index: string]: any;
+}
+
+/**
+ * App state.
+ */
+interface IAppState {
+  transactions: ITransaction[];
+}
+
+/**
  * Top-level App component.
  */
-class App extends Component {
+class App extends Component<{}, IAppState> {
+  private transactions: ITransaction[] = [];
+
+  constructor(props: any) {
+    super(props);
+
+    this.state = {
+      transactions: [],
+    };
+  }
+
   public render() {
+    const transactions: ITransaction[] = this.state.transactions;
+
     return (
       <div className="App">
         <Paper
@@ -27,25 +72,68 @@ class App extends Component {
         <Paper
           elevation={4}
         >
-          <Table>
-            <TableHead>
-            <TableRow>
-                <TableCell>name</TableCell>
-                <TableCell>description</TableCell>
-                <TableCell>amount</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell>a</TableCell>
-                <TableCell>b</TableCell>
-                <TableCell>0.00</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
+          <div>
+            {transactions.map((item: ITransaction, i: number) => {
+              return (
+                <div key={i}>
+                  <span>{item.id}</span>
+                  <span>{item.name}</span>
+                  <span>{item.amount}</span>
+                  <span>{item.due}</span>
+                  <span>{item.scheduled}</span>
+                  <span>{item.effective}</span>
+                  {/* TODO: accounts from, to */}
+                  <span>{(item.bucket && item.bucket.name) ? item.bucket.name : ''}</span>
+                </div>
+              );
+            })}
+          </div>
         </Paper>
       </div>
     );
+  }
+
+  public componentDidMount() {
+    // TODO: fetch stuff here
+    // tslint:disable-next-line
+    const result:any = [
+      {
+        // tslint:disable-next-line
+      "id":5,"name":null,"amount":null,"details":null,"due":null,"scheduled":"2018-12-22T05:00:00.000Z","effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-12T04:58:38.232Z","updated_at":"2018-12-12T04:58:38.251Z"},{"id":7,"name":null,"amount":2048,"details":null,"due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-13T04:35:54.147Z","updated_at":"2018-12-16T19:39:14.178Z"},{"id":4,"name":null,"amount":2048,"details":null,"due":"2018-12-12T05:00:00.000Z","scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-12T04:58:33.869Z","updated_at":"2018-12-16T19:39:17.608Z"},{"id":9,"name":null,"amount":2048,"details":null,"due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-16T06:50:48.864Z","updated_at":"2018-12-16T19:39:19.979Z"},{"id":8,"name":"xxx","amount":2048,"details":"</3","due":"2019-04-20T04:00:00.000Z","scheduled":"2019-04-20T04:00:00.000Z","effective":"2019-04-20T04:00:00.000Z","fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-15T05:54:30.461Z","updated_at":"2018-12-16T19:41:30.278Z"},{"id":1,"name":null,"amount":2048,"details":null,"due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-12T04:58:10.733Z","updated_at":"2018-12-16T19:42:09.085Z"},{"id":10,"name":null,"amount":null,"details":"aSD...updated!","due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-16T06:50:57.225Z","updated_at":"2018-12-16T19:47:42.531Z"},{"id":2,"name":null,"amount":99,"details":"null...updated!","due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-12T04:58:19.226Z","updated_at":"2018-12-16T20:22:22.016Z"},{"id":3,"name":null,"amount":null,"details":"wut...updated!","due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-12T04:58:29.820Z","updated_at":"2018-12-16T20:24:08.294Z"},{"id":11,"name":null,"amount":null,"details":null,"due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-17T03:25:47.393Z","updated_at":"2018-12-17T03:25:47.408Z"},{"id":12,"name":null,"amount":5,"details":null,"due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-17T03:25:53.839Z","updated_at":"2018-12-17T03:25:53.852Z"},{"id":13,"name":null,"amount":null,"details":null,"due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-17T03:30:21.476Z","updated_at":"2018-12-17T03:30:21.491Z"},{"id":14,"name":null,"amount":null,"details":"heck 'em","due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-17T03:46:14.511Z","updated_at":"2018-12-17T03:46:14.524Z"},{"id":15,"name":"fux wit it","amount":999,"details":null,"due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2018-12-17T06:48:33.439Z","updated_at":"2018-12-17T06:48:33.459Z"},{"id":16,"name":"we're back","amount":null,"details":"baybay","due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2019-01-12T04:12:35.324Z","updated_at":"2019-01-12T04:12:35.413Z"},{"id":17,"name":null,"amount":null,"details":null,"due":"2019-04-20T04:00:00.000Z","scheduled":"2019-04-20T04:00:00.000Z","effective":"2019-04-20T04:00:00.000Z","fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2019-01-12T04:15:24.917Z","updated_at":"2019-01-12T04:15:24.933Z"},{"id":18,"name":null,"amount":null,"details":null,"due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2019-01-12T04:24:33.852Z","updated_at":"2019-01-12T04:24:33.852Z"},{"id":19,"name":"baby boi","amount":null,"details":null,"due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2019-01-12T04:27:30.502Z","updated_at":"2019-01-12T04:27:30.523Z"},{"id":20,"name":null,"amount":null,"details":"tester","due":"2019-01-15T05:00:00.000Z","scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2019-01-12T04:27:41.819Z","updated_at":"2019-01-12T04:27:41.840Z"},{"id":21,"name":null,"amount":null,"details":"buckets then?","due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2019-01-12T04:27:50.859Z","updated_at":"2019-01-12T04:27:50.859Z"},{"id":22,"name":null,"amount":null,"details":null,"due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2019-01-12T04:31:47.940Z","updated_at":"2019-01-12T04:31:47.940Z"},{"id":23,"name":null,"amount":null,"details":null,"due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2019-01-12T04:36:53.148Z","updated_at":"2019-01-12T04:36:53.148Z"},{"id":24,"name":null,"amount":null,"details":null,"due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2019-01-12T04:42:35.653Z","updated_at":"2019-01-12T04:42:35.669Z"},{"id":25,"name":null,"amount":null,"details":null,"due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2019-01-12T04:42:40.821Z","updated_at":"2019-01-12T04:42:40.821Z"},{"id":26,"name":"fixeD","amount":null,"details":"think we got it","due":null,"scheduled":null,"effective":null,"fromAccount":{"id":1,"name":"chrome-checking","details":"chrome checking account","type":null,"initialBalance":1100,"created_at":"2018-12-16T06:47:30.747Z","updated_at":"2018-12-16T06:47:30.760Z"},"toAccount":{"id":2,"name":"chrome-savings","details":"savings account @ chrome","type":null,"initialBalance":4500,"created_at":"2019-01-12T04:36:31.189Z","updated_at":"2019-01-12T04:36:31.243Z"},"bucket":{"id":3,"name":"ah fuck it, right?","created_at":"2018-12-16T06:46:51.889Z","updated_at":"2018-12-16T06:46:51.899Z"},"created_at":"2019-01-12T04:43:27.998Z","updated_at":"2019-01-12T04:43:28.048Z"},{"id":27,"name":"do","amount":100,"details":"dollars sound like a lot","due":null,"scheduled":null,"effective":null,"fromAccount":null,"toAccount":null,"bucket":null,"created_at":"2019-01-14T07:16:05.369Z","updated_at":"2019-01-14T07:16:05.439Z"
+      },
+    ];
+
+    const defs: ITransaction = {
+      amount: 0,
+      bucket: '',
+      created_at: '',
+      details: '',
+      due: '',
+      effective: '',
+      fromAccount: '',
+      id: (-99),
+      name: '',
+      scheduled: '',
+      toAccount: '',
+      updated_at: '',
+    };
+
+    /**
+     * TODO: this nested looping is no good
+     */
+    const final = result.map((item: ITransaction) => {
+      const finalGuy = Object.assign({}, defs);
+      for (const prop in item) {
+        if (item[prop] != null) {
+          finalGuy[prop] = item[prop];
+        }
+      }
+      return finalGuy;
+    });
+
+    this.setState({
+      transactions: final,
+    });
   }
 }
 
