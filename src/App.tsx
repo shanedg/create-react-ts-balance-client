@@ -16,25 +16,53 @@ import CustomForm from './CustomForm';
 import './App.scss';
 
 /**
+ * Column options.
+ */
+interface IColumn {
+  name: string;
+}
+
+/**
+ * Table, linked list probably.
+ */
+interface ITable {
+  columns: IColumn[];
+  next: number | null;
+  prev: number | null;
+  transactions: ITransaction[];
+
+  /**
+   * [TODO]: this is an entirely new class
+   */
+}
+
+/**
  * Transaction.
  */
 interface ITransaction {
-  id?: number;
-  name: string;
   amount: number;
   due: string;
-  scheduled: string;
   effective: string;
+  name: string;
+  scheduled: string;
+
   /**
-   * TODO: might want to handle these as more than strings, lessons learned...
+   * [TODO]: might want to handle these as more than strings, lessons learned from balance-client
    */
   fromAccount: any;
   toAccount: any;
   bucket: any;
 
+  /**
+   * CMS properties.
+   */
+  id?: number;
   created_at?: string;
   updated_at?: string;
 
+  /**
+   * Index signature.
+   */
   [index: string]: any;
 }
 
@@ -43,6 +71,7 @@ interface ITransaction {
  */
 interface IAppState {
   transactions: ITransaction[];
+  columns: IColumn[];
 }
 
 /**
@@ -55,46 +84,97 @@ class App extends Component<{}, IAppState> {
     super(props);
 
     this.state = {
+      columns: [
+        {
+          name: 'id',
+        },
+        {
+          name: 'name',
+        },
+        {
+          name: 'amount',
+        },
+        {
+          name: 'due',
+        },
+      ],
       transactions: [],
     };
   }
 
   public render() {
     const transactions: ITransaction[] = this.state.transactions;
+    const columns: IColumn[] = this.state.columns;
+
+    /**
+     * [TODO] represent tables in state? should persist across sessions?
+     */
+    const tables: any[] = [
+      {
+        columns,
+        next: 1,
+        prev: null,
+        transactions: transactions.slice(0, 2),
+      },
+      {
+        columns,
+        next: null,
+        prev: 0,
+        transactions: transactions.slice(2),
+      },
+    ];
 
     return (
       <div className="App">
         <Paper
           elevation={4}
         >
-          <CustomForm></CustomForm>
-        </Paper>
-        <Paper
-          elevation={4}
-        >
-          <div>
-            {transactions.map((item: ITransaction, i: number) => {
-              return (
-                <div key={i}>
-                  <span>{item.id}</span>
-                  <span>{item.name}</span>
-                  <span>{item.amount}</span>
-                  <span>{item.due}</span>
-                  <span>{item.scheduled}</span>
-                  <span>{item.effective}</span>
-                  {/* TODO: accounts from, to */}
-                  <span>{(item.bucket && item.bucket.name) ? item.bucket.name : ''}</span>
-                </div>
-              );
-            })}
-          </div>
+          {
+            tables &&
+            tables.length > 0 &&
+            tables.map((table: ITable, i: number) => {
+              return <Table key={`table-${i}`}>
+                {
+                  table.prev == null &&
+                  <TableHead>
+                    <TableRow>
+                      {
+                        table.columns.map((col: IColumn, j: number) => {
+                          return <TableCell key={`th-${j}`}>
+                            {col.name}
+                          </TableCell>;
+                        })
+                      }
+                    </TableRow>
+                  </TableHead>
+                }
+                <TableBody>
+                  {
+                    table.transactions.map((t: ITransaction, k: number) => {
+                      return <TableRow key={`tr-${k}`}>
+                        {
+                          table.columns.map((col: IColumn, l: number) => {
+                            return <TableCell key={`td-${l}`}>
+                              {t[col.name]}
+                            </TableCell>;
+                          })
+                        }
+                      </TableRow>;
+                    })
+                  }
+                </TableBody>
+              </Table>;
+            })
+          }
         </Paper>
       </div>
     );
   }
 
   public componentDidMount() {
-    // TODO: fetch stuff here
+    /**
+     * [TODO]: fetch stuff here, fake data for now
+     */
     // tslint:disable-next-line
     const result:any = [
       {
@@ -119,7 +199,7 @@ class App extends Component<{}, IAppState> {
     };
 
     /**
-     * TODO: this nested looping is no good
+     * [TODO]: this nested looping is no good
      */
     const final = result.map((item: ITransaction) => {
       const finalGuy = Object.assign({}, defs);
