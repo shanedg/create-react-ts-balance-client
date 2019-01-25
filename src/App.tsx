@@ -2,31 +2,18 @@
 import React, { Component } from 'react';
 
 import {
-  Input,
   Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
 } from '@material-ui/core';
 
-import CustomForm from './CustomForm';
+import CustomTable from './CustomTable';
 
 import './App.scss';
-
-/**
- * Column options.
- */
-interface IColumn {
-  name: string;
-}
 
 /**
  * Table, linked list probably.
  */
 interface ITable {
-  columns: IColumn[];
+  cols: IColumn[];
   next: number | null;
   prev: number | null;
   transactions: ITransaction[];
@@ -34,36 +21,6 @@ interface ITable {
   /**
    * [TODO]: this is an entirely new class
    */
-}
-
-/**
- * Transaction.
- */
-interface ITransaction {
-  amount: number;
-  due: string;
-  effective: string;
-  name: string;
-  scheduled: string;
-
-  /**
-   * [TODO]: might want to handle these as more than strings, lessons learned from balance-client
-   */
-  fromAccount: any;
-  toAccount: any;
-  bucket: any;
-
-  /**
-   * CMS properties.
-   */
-  id?: number;
-  created_at?: string;
-  updated_at?: string;
-
-  /**
-   * Index signature.
-   */
-  [index: string]: any;
 }
 
 /**
@@ -111,13 +68,13 @@ class App extends Component<{}, IAppState> {
      */
     const tables: any[] = [
       {
-        columns,
+        cols: columns,
         next: 1,
         prev: null,
         transactions: transactions.slice(0, 2),
       },
       {
-        columns,
+        cols: columns,
         next: null,
         prev: 0,
         transactions: transactions.slice(2),
@@ -133,37 +90,16 @@ class App extends Component<{}, IAppState> {
             tables &&
             tables.length > 0 &&
             tables.map((table: ITable, i: number) => {
-              return <Table key={`table-${i}`}>
-                {
-                  table.prev == null &&
-                  <TableHead>
-                    <TableRow>
-                      {
-                        table.columns.map((col: IColumn, j: number) => {
-                          return <TableCell key={`th-${j}`}>
-                            {col.name}
-                          </TableCell>;
-                        })
-                      }
-                    </TableRow>
-                  </TableHead>
-                }
-                <TableBody>
-                  {
-                    table.transactions.map((t: ITransaction, k: number) => {
-                      return <TableRow key={`tr-${k}`}>
-                        {
-                          table.columns.map((col: IColumn, l: number) => {
-                            return <TableCell key={`td-${l}`}>
-                              {t[col.name]}
-                            </TableCell>;
-                          })
-                        }
-                      </TableRow>;
-                    })
-                  }
-                </TableBody>
-              </Table>;
+              const next = (i < tables.length - 1) ? (i + 1) : null;
+              const prev = (i > 0) ? (i - 1) : null;
+
+              return <CustomTable
+                cols={table.cols}
+                key={`table-${i}`}
+                next={next}
+                prev={prev}
+                transactions={table.transactions}
+              ></CustomTable>;
             })
           }
         </Paper>
@@ -201,18 +137,18 @@ class App extends Component<{}, IAppState> {
     /**
      * [TODO]: this nested looping is no good
      */
-    const final = result.map((item: ITransaction) => {
-      const finalGuy = Object.assign({}, defs);
-      for (const prop in item) {
-        if (item[prop] != null) {
-          finalGuy[prop] = item[prop];
+    const transactions = result.map((before: ITransaction) => {
+      const after = Object.assign({}, defs);
+      for (const prop in before) {
+        if (before[prop] != null) {
+          after[prop] = before[prop];
         }
       }
-      return finalGuy;
+      return after;
     });
 
     this.setState({
-      transactions: final,
+      transactions,
     });
   }
 }
