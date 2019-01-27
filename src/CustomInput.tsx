@@ -7,9 +7,9 @@ import React, { Component } from 'react';
  * CustomInput props.
  */
 interface ICustomInputProps {
+  input: any;
   label: string;
   onChange: any;
-  input: any;
 }
 
 /**
@@ -19,6 +19,9 @@ interface ICustomInputState {
   input: string;
 }
 
+/**
+ * Custom input componenet.
+ */
 class CustomInput extends Component<ICustomInputProps, ICustomInputState> {
   constructor(props: any) {
     super(props);
@@ -29,7 +32,9 @@ class CustomInput extends Component<ICustomInputProps, ICustomInputState> {
 
     return (
       <InputLabel>
-        {label}:
+        <span>
+          {label}
+        </span>
         <Input
           onChange={this.props.onChange}
           value={this.props.input}
