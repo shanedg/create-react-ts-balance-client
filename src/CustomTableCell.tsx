@@ -11,8 +11,9 @@ import CustomInput from './CustomInput';
  * Custom table cell props.
  */
 interface ICustomTableCellProps {
-  // active: boolean;
+  active: boolean;
   col: any;
+  onClick: any;
   value: any;
 }
 
@@ -20,7 +21,6 @@ interface ICustomTableCellProps {
  * Custom table cell state.
  */
 interface ICustomTableCellState {
-  active: boolean;
 }
 
 /**
@@ -31,16 +31,11 @@ class CustomTableCell extends Component<ICustomTableCellProps, ICustomTableCellS
   constructor(props: ICustomTableCellProps) {
     super(props);
 
-    this.state = {
-      active: false,
-    };
-
     this.handleChanges = this.handleChanges.bind(this);
-    this.toggleInputActive = this.toggleInputActive.bind(this);
   }
 
   public render() {
-    const active = this.state.active;
+    const active = this.props.active;
     /**
      * [TODO] use `col` later for decisions about disabling, editing, validating
      */
@@ -57,7 +52,7 @@ class CustomTableCell extends Component<ICustomTableCellProps, ICustomTableCellS
 
     return (
       <TableCell
-        onClick={this.toggleInputActive}
+        onClick={this.props.onClick}
       >
         {inner}
       </TableCell>
@@ -70,15 +65,6 @@ class CustomTableCell extends Component<ICustomTableCellProps, ICustomTableCellS
   private handleChanges(changes: any) {
     // tslint:disable-next-line no-console
     console.log('changes stub', changes);
-  }
-
-  /**
-   * Toggle edit cell.
-   */
-  private toggleInputActive() {
-    this.setState({
-      active: !this.state.active,
-    });
   }
 
 }

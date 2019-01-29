@@ -16,9 +16,26 @@ interface ICustomTableRowProps {
 }
 
 /**
+ * Custom table row state.
+ */
+interface ICustomTableRowState {
+  active: boolean;
+}
+
+/**
  * Custom table row component.
  */
-class CustomTableRow extends Component<ICustomTableRowProps, {}> {
+class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowState> {
+
+  constructor(props: ICustomTableRowProps) {
+    super(props);
+
+    this.state = {
+      active: false,
+    };
+
+    this.toggleRowActive = this.toggleRowActive.bind(this);
+  }
 
   public render() {
     const cols: IColumn[] = this.props.cols;
@@ -30,8 +47,10 @@ class CustomTableRow extends Component<ICustomTableRowProps, {}> {
           cols.map((col: IColumn, i: number) => {
             return (
               <CustomTableCell
+                active={this.state.active}
                 col={col}
                 key={`td-${i}`}
+                onClick={this.toggleRowActive}
                 value={row[col.name]}
               ></CustomTableCell>
             );
@@ -39,6 +58,15 @@ class CustomTableRow extends Component<ICustomTableRowProps, {}> {
         }
       </TableRow>
     );
+  }
+
+  /**
+   * Enter edit row cells.
+   */
+  private toggleRowActive() {
+    this.setState({
+      active: true,
+    });
   }
 
 }
