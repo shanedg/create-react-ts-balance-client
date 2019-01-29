@@ -14,6 +14,7 @@ import CustomTableHead from './CustomTableHead';
  */
 interface ICustomTableProps {
   cols: IColumn[];
+  onChange: any;
   next: number | null;
   prev: number | null;
   transactions: ITransaction[];
@@ -24,9 +25,15 @@ interface ICustomTableProps {
  */
 class CustomTable extends Component<ICustomTableProps, {}> {
 
+  constructor(props: ICustomTableProps) {
+    super(props);
+
+    // this.transactionChanges = this.transactionChanges.bind(this);
+  }
+
   public render() {
-    const transactions: ITransaction[] = this.props.transactions;
     const cols: IColumn[] = this.props.cols;
+    const transactions: ITransaction[] = this.props.transactions;
 
     return (
       <Paper elevation={4}>
@@ -39,12 +46,23 @@ class CustomTable extends Component<ICustomTableProps, {}> {
           }
           <CustomTableBody
             cols={cols}
+            onChange={this.props.onChange}
             transactions={transactions}
           ></CustomTableBody>
         </Table>
       </Paper>
     );
   }
+
+  /**
+   * asdf
+   */
+  // private transactionChanges(t: ITransaction) {
+  //   const id = t.id;
+  //   const newT: ITransaction;
+
+  //   this.props.transactionsChanged();
+  // }
 
 }
 

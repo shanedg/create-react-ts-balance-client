@@ -57,6 +57,8 @@ class App extends Component<{}, IAppState> {
       ],
       transactions: [],
     };
+
+    this.transactionsChanged = this.transactionsChanged.bind(this);
   }
 
   public render() {
@@ -99,13 +101,16 @@ class App extends Component<{}, IAppState> {
               const next = (i < tables.length - 1) ? (i + 1) : null;
               const prev = (i > 0) ? (i - 1) : null;
 
-              return <CustomTable
-                cols={table.cols}
-                key={`table-${i}`}
-                next={next}
-                prev={prev}
-                transactions={table.transactions}
-              ></CustomTable>;
+              return (
+                <CustomTable
+                  cols={table.cols}
+                  key={`table-${i}`}
+                  onChange={this.transactionsChanged}
+                  next={next}
+                  prev={prev}
+                  transactions={table.transactions}
+                ></CustomTable>
+              );
             })
           }
         </Paper>
@@ -155,6 +160,15 @@ class App extends Component<{}, IAppState> {
 
     this.setState({
       transactions,
+    });
+  }
+
+  /**
+   * Handle transactions changes.
+   */
+  private transactionsChanged(transactionsChanged: ITransaction[]) {
+    this.setState({
+      transactions: transactionsChanged,
     });
   }
 }

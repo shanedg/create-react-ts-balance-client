@@ -32,17 +32,17 @@ class CustomForm extends Component<{}, ICustomFormState> {
         <CustomInput
           label="name"
           onChange={this.handleNameChange}
-          input={this.state.name}
+          inputValue={this.state.name}
         ></CustomInput>
         <CustomInput
           label="description"
           onChange={this.handleDescriptionChange}
-          input={this.state.description}
+          inputValue={this.state.description}
         ></CustomInput>
         <CustomInput
           label="amount"
           onChange={this.handleAmountChange}
-          input={this.state.amount}
+          inputValue={this.state.amount}
         ></CustomInput>
         <Button
           onSubmit={this.handleSubmit}

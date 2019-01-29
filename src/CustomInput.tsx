@@ -7,22 +7,15 @@ import React, { Component } from 'react';
  * CustomInput props.
  */
 interface ICustomInputProps {
-  input: any;
+  inputValue: any;
   label: string;
   onChange: any;
 }
 
 /**
- * CustomInput state.
+ * Custom input component.
  */
-interface ICustomInputState {
-  input: string;
-}
-
-/**
- * Custom input componenet.
- */
-class CustomInput extends Component<ICustomInputProps, ICustomInputState> {
+class CustomInput extends Component<ICustomInputProps, {}> {
   constructor(props: any) {
     super(props);
   }
@@ -32,12 +25,15 @@ class CustomInput extends Component<ICustomInputProps, ICustomInputState> {
 
     return (
       <InputLabel>
-        <span>
-          {label}
-        </span>
+        {
+          !(label === '') &&
+          <span>
+            {label}
+          </span>
+        }
         <Input
           onChange={this.props.onChange}
-          value={this.props.input}
+          value={this.props.inputValue}
         ></Input>
       </InputLabel>
     );

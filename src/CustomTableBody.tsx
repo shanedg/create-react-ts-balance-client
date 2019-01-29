@@ -14,6 +14,7 @@ import CustomTableRow from './CustomTableRow';
  */
 interface ICustomTableBodyProps {
   cols: IColumn[];
+  onChange: any;
   transactions: ITransaction[];
 }
 
@@ -24,6 +25,7 @@ class CustomTableBody extends Component<ICustomTableBodyProps, {}> {
 
   public render() {
     const cols: IColumn[] = this.props.cols;
+    const handleChanges: any = this.props.onChange;
     const transactions: ITransaction[] = this.props.transactions;
 
     return (
@@ -33,6 +35,7 @@ class CustomTableBody extends Component<ICustomTableBodyProps, {}> {
             return (
               <CustomTableRow
                 cols={cols}
+                onChange={handleChanges}
                 key={`tr-${i}`}
                 row={row}
               ></CustomTableRow>

@@ -13,25 +13,18 @@ import CustomInput from './CustomInput';
 interface ICustomTableCellProps {
   active: boolean;
   col: any;
+  onChange: any;
   onClick: any;
-  value: any;
-}
-
-/**
- * Custom table cell state.
- */
-interface ICustomTableCellState {
+  cellValue: any;
 }
 
 /**
  * Custom table cell component.
  */
-class CustomTableCell extends Component<ICustomTableCellProps, ICustomTableCellState> {
+class CustomTableCell extends Component<ICustomTableCellProps, {}> {
 
   constructor(props: ICustomTableCellProps) {
     super(props);
-
-    this.handleChanges = this.handleChanges.bind(this);
   }
 
   public render() {
@@ -39,16 +32,16 @@ class CustomTableCell extends Component<ICustomTableCellProps, ICustomTableCellS
     /**
      * [TODO] use `col` later for decisions about disabling, editing, validating
      */
-    const col = this.props.col;
-    const val = this.props.value;
+    // const col = this.props.col;
+    const cellValue = this.props.cellValue;
 
     const inner = active ?
       <CustomInput
-        input={val}
+        inputValue={cellValue}
         label={''}
-        onChange={this.handleChanges}
+        onChange={this.props.onChange}
       ></CustomInput> :
-      val;
+      cellValue;
 
     return (
       <TableCell
@@ -57,14 +50,6 @@ class CustomTableCell extends Component<ICustomTableCellProps, ICustomTableCellS
         {inner}
       </TableCell>
     );
-  }
-
-  /**
-   * Handle input changes.
-   */
-  private handleChanges(changes: any) {
-    // tslint:disable-next-line no-console
-    console.log('changes stub', changes);
   }
 
 }

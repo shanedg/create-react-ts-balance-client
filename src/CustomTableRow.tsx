@@ -12,6 +12,7 @@ import CustomTableCell from './CustomTableCell';
  */
 interface ICustomTableRowProps {
   cols: IColumn[];
+  onChange: any;
   row: ITransaction;
 }
 
@@ -34,10 +35,12 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
       active: false,
     };
 
+    this.handleChanges = this.handleChanges.bind(this);
     this.toggleRowActive = this.toggleRowActive.bind(this);
   }
 
   public render() {
+    const active: boolean = this.state.active;
     const cols: IColumn[] = this.props.cols;
     const row: ITransaction = this.props.row;
 
@@ -47,11 +50,12 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
           cols.map((col: IColumn, i: number) => {
             return (
               <CustomTableCell
-                active={this.state.active}
+                active={active}
                 col={col}
+                onChange={this.handleChanges}
                 key={`td-${i}`}
                 onClick={this.toggleRowActive}
-                value={row[col.name]}
+                cellValue={row[col.name]}
               ></CustomTableCell>
             );
           })
@@ -67,6 +71,14 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
     this.setState({
       active: true,
     });
+  }
+
+  /**
+   * asdf
+   */
+  private handleChanges(event: any) {
+    // tslint:disable-next-line no-console
+    console.log('event', event.target.value);
   }
 
 }
