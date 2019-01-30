@@ -57,6 +57,8 @@ class App extends Component<{}, IAppState> {
       ],
       transactions: [],
     };
+
+    this.transactionsChanged = this.transactionsChanged.bind(this);
   }
 
   public render() {
@@ -77,7 +79,13 @@ class App extends Component<{}, IAppState> {
         cols: columns,
         next: null,
         prev: 0,
-        transactions: transactions.slice(2),
+        transactions: transactions.slice(2, 5),
+      },
+      {
+        cols: columns,
+        next: null,
+        prev: 0,
+        transactions: transactions.slice(5, 9),
       },
     ];
 
@@ -93,13 +101,16 @@ class App extends Component<{}, IAppState> {
               const next = (i < tables.length - 1) ? (i + 1) : null;
               const prev = (i > 0) ? (i - 1) : null;
 
-              return <CustomTable
-                cols={table.cols}
-                key={`table-${i}`}
-                next={next}
-                prev={prev}
-                transactions={table.transactions}
-              ></CustomTable>;
+              return (
+                <CustomTable
+                  cols={table.cols}
+                  key={`table-${i}`}
+                  onChange={this.transactionsChanged}
+                  next={next}
+                  prev={prev}
+                  transactions={table.transactions}
+                ></CustomTable>
+              );
             })
           }
         </Paper>
@@ -119,7 +130,7 @@ class App extends Component<{}, IAppState> {
       },
     ];
 
-    const defs: ITransaction = {
+    const transactionDefaults: ITransaction = {
       amount: 0,
       bucket: '',
       created_at: '',
@@ -135,10 +146,10 @@ class App extends Component<{}, IAppState> {
     };
 
     /**
-     * [TODO]: this nested looping is no good
+     * [TODO]: this nested looping for patching defaults is no good
      */
     const transactions = result.map((before: ITransaction) => {
-      const after = Object.assign({}, defs);
+      const after = Object.assign({}, transactionDefaults);
       for (const prop in before) {
         if (before[prop] != null) {
           after[prop] = before[prop];
@@ -149,6 +160,15 @@ class App extends Component<{}, IAppState> {
 
     this.setState({
       transactions,
+    });
+  }
+
+  /**
+   * Handle transactions changes.
+   */
+  private transactionsChanged(transactionsChanged: ITransaction[]) {
+    this.setState({
+      transactions: transactionsChanged,
     });
   }
 }

@@ -5,12 +5,17 @@ import {
   TableCell,
 } from '@material-ui/core';
 
+import CustomInput from './CustomInput';
+
 /**
  * Custom table cell props.
  */
 interface ICustomTableCellProps {
+  active: boolean;
+  cellValue: any;
   col: any;
-  value: any;
+  onChange: any;
+  onClick: any;
 }
 
 /**
@@ -18,16 +23,31 @@ interface ICustomTableCellProps {
  */
 class CustomTableCell extends Component<ICustomTableCellProps, {}> {
 
+  constructor(props: ICustomTableCellProps) {
+    super(props);
+  }
+
   public render() {
-    const val = this.props.value;
+    const active = this.props.active;
     /**
      * [TODO] use `col` later for decisions about disabling, editing, validating
      */
-    const col = this.props.col;
+    // const col = this.props.col;
+    const cellValue = this.props.cellValue;
+
+    const inner = active ?
+      <CustomInput
+        inputValue={cellValue}
+        label={''}
+        onChange={this.props.onChange}
+      ></CustomInput> :
+      cellValue;
 
     return (
-      <TableCell>
-        {val}
+      <TableCell
+        onClick={this.props.onClick}
+      >
+        {inner}
       </TableCell>
     );
   }
