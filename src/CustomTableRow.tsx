@@ -49,8 +49,10 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
       <TableRow>
         {
           cols.map((col: IColumn, i: number) => {
-            // logic for passing onChange a change handler that knows what it's updating?
-            const handler = this.makeInputHandler(col.name);
+            /**
+             * Per-cell input handler from factory.
+             */
+            const handler = this.inputHandlerFactory(col.name);
             return (
               <CustomTableCell
                 active={active}
@@ -81,7 +83,7 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
    * @param {string} rowProp Column name prop passed to custom table cell.
    * @returns {any} Input change handler function for individual cell in row.
    */
-  private makeInputHandler(rowProp: string) {
+  private inputHandlerFactory(rowProp: string) {
     const column = rowProp;
 
     return (event: any) => {
@@ -95,12 +97,29 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
   }
 
   /**
-   * [TODO] handler for input return key submission of row
+   * Save current row state.
    */
+  private saveRowEdits() {
+    this.disableRow();
+    // emit row state?
+  }
 
   /**
-   * [TODO] handler for input esc key for cancel edit row
+   * Discard current row state.
    */
+  private cancelRowEdits() {
+    this.disableRow();
+    // grab original "default" row prop, reset state
+  }
+
+  /**
+   * Make row inputs inactive for editing.
+   */
+  private disableRow() {
+    this.setState({
+      active: false,
+    });
+  }
 
 }
 
