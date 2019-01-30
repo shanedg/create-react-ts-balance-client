@@ -21,6 +21,7 @@ interface ICustomTableRowProps {
  */
 interface ICustomTableRowState {
   active: boolean;
+  rowData: ITransaction;
 }
 
 /**
@@ -33,9 +34,9 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
 
     this.state = {
       active: false,
+      rowData: this.props.row,
     };
 
-    this.handleChanges = this.handleChanges.bind(this);
     this.toggleRowActive = this.toggleRowActive.bind(this);
   }
 
@@ -48,14 +49,16 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
       <TableRow>
         {
           cols.map((col: IColumn, i: number) => {
+            // logic for passing onChange a change handler that knows what it's updating?
+            const handler = this.makeInputHandler(col.name);
             return (
               <CustomTableCell
                 active={active}
-                col={col}
-                onChange={this.handleChanges}
-                key={`td-${i}`}
-                onClick={this.toggleRowActive}
                 cellValue={row[col.name]}
+                col={col}
+                key={`td-${i}`}
+                onChange={handler}
+                onClick={this.toggleRowActive}
               ></CustomTableCell>
             );
           })
@@ -74,12 +77,30 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
   }
 
   /**
-   * asdf
+   * Row input handler factory.
+   * @param {string} rowProp Column name prop passed to custom table cell.
+   * @returns {any} Input change handler function for individual cell in row.
    */
-  private handleChanges(event: any) {
-    // tslint:disable-next-line no-console
-    console.log('event', event.target.value);
+  private makeInputHandler(rowProp: string) {
+    const column = rowProp;
+
+    return (event: any) => {
+      const row = this.state.rowData;
+      row[rowProp] = event.target.value;
+
+      this.setState({
+        rowData: row,
+      });
+    };
   }
+
+  /**
+   * [TODO] handler for input return key submission of row
+   */
+
+  /**
+   * [TODO] handler for input esc key for cancel edit row
+   */
 
 }
 
