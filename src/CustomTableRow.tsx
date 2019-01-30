@@ -1,11 +1,19 @@
 // tslint:disable-next-line:import-name
 import React, { Component } from 'react';
 
-import {
-  TableRow,
-} from '@material-ui/core';
+import TableRow from '@material-ui/core/TableRow';
 
 import CustomTableCell from './CustomTableCell';
+
+/**
+ * 'Return' key code.
+ */
+const KEY_RETURN = 13;
+
+/**
+ * 'Esc' key code.
+ */
+const KEY_ESCAPE = 27;
 
 /**
  * Custom table row props.
@@ -37,15 +45,20 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
       rowData: this.props.row,
     };
 
+    this.keyDown = this.keyDown.bind(this);
     this.toggleRowActive = this.toggleRowActive.bind(this);
   }
 
   public render() {
     const active: boolean = this.state.active;
     const cols: IColumn[] = this.props.cols;
-    const row: ITransaction = this.props.row;
+    const row: ITransaction = this.state.rowData;
 
     return (
+      /**
+       * [TODO] element ref to listen for `focusIn` event bubbling up from children?
+       * TURNS OUT: TableRow is a functional component so it cannot receive refs!
+       */
       <TableRow>
         {
           cols.map((col: IColumn, i: number) => {
@@ -69,13 +82,12 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
     );
   }
 
-  /**
-   * Enter edit row cells.
-   */
-  private toggleRowActive() {
-    this.setState({
-      active: true,
-    });
+  public componentDidMount() {
+    document.addEventListener('keydown', this.keyDown);
+  }
+
+  public componentWillUnmount() {
+    document.removeEventListener('keydown', this.keyDown);
   }
 
   /**
@@ -87,7 +99,10 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
     const column = rowProp;
 
     return (event: any) => {
-      const row = this.state.rowData;
+      /**
+       * Do not modify state directly.
+       */
+      const row = Object.assign({}, this.state.rowData);
       row[rowProp] = event.target.value;
 
       this.setState({
@@ -97,27 +112,55 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
   }
 
   /**
+   * Discard current row state.
+   */
+  private cancelRowEdits() {
+    /**
+     * Reset state to init props from parent.
+     */
+    this.setState({
+      active: false,
+      rowData: this.props.row,
+    });
+  }
+
+  /**
+   * Listen for keyboard events when a row cell is focused.
+   * @param {KeyboardEvent} key Keyboard key down event.
+   * [TODO] how to keep track of focus?
+   */
+  private keyDown(key: any) {
+    const keyCode = key.which;
+
+    switch (keyCode) {
+      case KEY_RETURN:
+        this.saveRowEdits();
+        break;
+      case KEY_ESCAPE:
+        this.cancelRowEdits();
+        break;
+      default:
+        break;
+    }
+  }
+
+  /**
    * Save current row state.
    */
   private saveRowEdits() {
-    this.disableRow();
+    this.setState({
+      active: false,
+    });
+
     // emit row state?
   }
 
   /**
-   * Discard current row state.
+   * Enter edit row cells.
    */
-  private cancelRowEdits() {
-    this.disableRow();
-    // grab original "default" row prop, reset state
-  }
-
-  /**
-   * Make row inputs inactive for editing.
-   */
-  private disableRow() {
+  private toggleRowActive() {
     this.setState({
-      active: false,
+      active: true,
     });
   }
 
