@@ -20,7 +20,9 @@ const KEY_ESCAPE = 27;
  */
 interface ICustomTableRowProps {
   cols: IColumn[];
+  focused: boolean;
   onChange: any;
+  onFocus: any;
   row: ITransaction;
 }
 
@@ -55,17 +57,14 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
     const row: ITransaction = this.state.rowData;
 
     return (
-      /**
-       * [TODO] element ref to listen for `focusIn` event bubbling up from children?
-       * TURNS OUT: TableRow is a functional component so it cannot receive refs!
-       */
       <TableRow>
         {
           cols.map((col: IColumn, i: number) => {
             /**
-             * Per-cell input handler from factory.
+             * Pass row column name into factory to get per-cell input handler.
              */
             const handler = this.inputHandlerFactory(col.name);
+
             return (
               <CustomTableCell
                 active={active}
@@ -74,6 +73,7 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
                 key={`td-${i}`}
                 onChange={handler}
                 onClick={this.toggleRowActive}
+                onFocus={this.props.onFocus}
               ></CustomTableCell>
             );
           })
@@ -92,11 +92,10 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
 
   /**
    * Row input handler factory.
-   * @param {string} rowProp Column name prop passed to custom table cell.
-   * @returns {any} Input change handler function for individual cell in row.
+   * @param {string} rowProp Column name of the specific row cell.
+   * @returns {any} Input value change handler function for individual row cell.
    */
   private inputHandlerFactory(rowProp: string) {
-    const column = rowProp;
 
     return (event: any) => {
       /**
@@ -127,20 +126,21 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
   /**
    * Listen for keyboard events when a row cell is focused.
    * @param {KeyboardEvent} key Keyboard key down event.
-   * [TODO] how to keep track of focus?
    */
   private keyDown(key: any) {
-    const keyCode = key.which;
+    if (this.props.focused) {
+      const keyCode = key.which;
 
-    switch (keyCode) {
-      case KEY_RETURN:
-        this.saveRowEdits();
-        break;
-      case KEY_ESCAPE:
-        this.cancelRowEdits();
-        break;
-      default:
-        break;
+      switch (keyCode) {
+        case KEY_RETURN:
+          this.saveRowEdits();
+          break;
+        case KEY_ESCAPE:
+          this.cancelRowEdits();
+          break;
+        default:
+          break;
+      }
     }
   }
 
@@ -151,8 +151,6 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
     this.setState({
       active: false,
     });
-
-    // emit row state?
   }
 
   /**

@@ -16,6 +16,7 @@ interface ICustomTableCellProps {
   col: any;
   onChange: any;
   onClick: any;
+  onFocus: any;
 }
 
 /**
@@ -29,10 +30,6 @@ class CustomTableCell extends Component<ICustomTableCellProps, {}> {
 
   public render() {
     const active = this.props.active;
-    /**
-     * [TODO] use `col` later for decisions about disabling, editing, validating
-     */
-    // const col = this.props.col;
     const cellValue = this.props.cellValue;
 
     const inner = active ?
@@ -40,6 +37,7 @@ class CustomTableCell extends Component<ICustomTableCellProps, {}> {
         inputValue={cellValue}
         label={''}
         onChange={this.props.onChange}
+        onFocus={this.props.onFocus}
       ></CustomInput> :
       cellValue;
 
