@@ -10,6 +10,7 @@ interface ICustomInputProps {
   inputValue: any;
   label: string;
   onChange: any;
+  onFocus: any;
 }
 
 /**
@@ -33,6 +34,7 @@ class CustomInput extends Component<ICustomInputProps, {}> {
         }
         <Input
           onChange={this.props.onChange}
+          onFocus={this.props.onFocus}
           value={this.props.inputValue}
         ></Input>
       </InputLabel>

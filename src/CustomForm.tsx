@@ -22,6 +22,7 @@ class CustomForm extends Component<{}, ICustomFormState> {
 
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -31,18 +32,21 @@ class CustomForm extends Component<{}, ICustomFormState> {
       <form onSubmit={this.handleSubmit}>
         <CustomInput
           label="name"
-          onChange={this.handleNameChange}
           inputValue={this.state.name}
+          onChange={this.handleNameChange}
+          onFocus={this.handleFocus}
         ></CustomInput>
         <CustomInput
           label="description"
-          onChange={this.handleDescriptionChange}
           inputValue={this.state.description}
+          onChange={this.handleDescriptionChange}
+          onFocus={this.handleFocus}
         ></CustomInput>
         <CustomInput
           label="amount"
-          onChange={this.handleAmountChange}
           inputValue={this.state.amount}
+          onChange={this.handleAmountChange}
+          onFocus={this.handleFocus}
         ></CustomInput>
         <Button
           onSubmit={this.handleSubmit}
@@ -80,6 +84,15 @@ class CustomForm extends Component<{}, ICustomFormState> {
     this.setState({
       amount: event.target.value,
     });
+  }
+
+  /**
+   * Handle input focus.
+   * @param event Emulated focus event on input.
+   */
+  private handleFocus(event: any) {
+    // tslint:disable-next-line no-console
+    console.warn('focus', event.target);
   }
 
   /**

@@ -16,6 +16,7 @@ interface ICustomTableCellProps {
   col: any;
   onChange: any;
   onClick: any;
+  onFocus: any;
 }
 
 /**
@@ -40,6 +41,7 @@ class CustomTableCell extends Component<ICustomTableCellProps, {}> {
         inputValue={cellValue}
         label={''}
         onChange={this.props.onChange}
+        onFocus={this.props.onFocus}
       ></CustomInput> :
       cellValue;
 
