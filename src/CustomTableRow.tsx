@@ -20,6 +20,7 @@ const KEY_ESCAPE = 27;
  */
 interface ICustomTableRowProps {
   cols: IColumn[];
+  focused: boolean;
   onChange: any;
   onFocus: any;
   row: ITransaction;
@@ -129,20 +130,21 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
   /**
    * Listen for keyboard events when a row cell is focused.
    * @param {KeyboardEvent} key Keyboard key down event.
-   * [TODO] how to keep track of focus?
    */
   private keyDown(key: any) {
-    const keyCode = key.which;
+    if (this.props.focused) {
+      const keyCode = key.which;
 
-    switch (keyCode) {
-      case KEY_RETURN:
-        this.saveRowEdits();
-        break;
-      case KEY_ESCAPE:
-        this.cancelRowEdits();
-        break;
-      default:
-        break;
+      switch (keyCode) {
+        case KEY_RETURN:
+          this.saveRowEdits();
+          break;
+        case KEY_ESCAPE:
+          this.cancelRowEdits();
+          break;
+        default:
+          break;
+      }
     }
   }
 

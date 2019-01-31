@@ -59,10 +59,14 @@ class CustomTableBody extends Component<ICustomTableBodyProps, ICustomTableBodyS
              */
             const rowKey = `tr-${i}`;
             const handleRowFocus = this.focusHandlerFactory(rowKey);
+            const focused = this.state.focus.hasOwnProperty(rowKey) ?
+              this.state.focus[rowKey] :
+              false;
 
             return (
               <CustomTableRow
                 cols={cols}
+                focused={focused}
                 key={rowKey}
                 onChange={handleChanges}
                 onFocus={handleRowFocus}
