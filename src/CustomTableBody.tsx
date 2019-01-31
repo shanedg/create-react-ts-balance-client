@@ -58,6 +58,7 @@ class CustomTableBody extends Component<ICustomTableBodyProps, ICustomTableBodyS
              * Pass row key to factory to get per-row focus handler.
              */
             const rowKey = `tr-${i}`;
+
             const handleRowFocus = this.focusHandlerFactory(rowKey);
             const focused = this.state.focus.hasOwnProperty(rowKey) ?
               this.state.focus[rowKey] :

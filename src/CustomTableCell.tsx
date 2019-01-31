@@ -30,10 +30,6 @@ class CustomTableCell extends Component<ICustomTableCellProps, {}> {
 
   public render() {
     const active = this.props.active;
-    /**
-     * [TODO] use `col` later for decisions about disabling, editing, validating
-     */
-    // const col = this.props.col;
     const cellValue = this.props.cellValue;
 
     const inner = active ?

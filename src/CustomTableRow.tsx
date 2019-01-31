@@ -57,10 +57,6 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
     const row: ITransaction = this.state.rowData;
 
     return (
-      /**
-       * [TODO] element ref to listen for `focusIn` event bubbling up from children?
-       * TURNS OUT: TableRow is a functional component so it cannot receive refs!
-       */
       <TableRow>
         {
           cols.map((col: IColumn, i: number) => {
@@ -155,8 +151,6 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
     this.setState({
       active: false,
     });
-
-    // emit row state?
   }
 
   /**
