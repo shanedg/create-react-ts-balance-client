@@ -17,6 +17,7 @@ interface ICustomTableCellProps {
   onChange: any;
   onClick: any;
   onFocus: any;
+  readOnly: boolean;
 }
 
 /**
@@ -31,8 +32,9 @@ class CustomTableCell extends Component<ICustomTableCellProps, {}> {
   public render() {
     const active = this.props.active;
     const cellValue = this.props.cellValue;
+    const readOnly = this.props.readOnly;
 
-    const inner = active ?
+    const inner = (active && !readOnly) ?
       <CustomInput
         inputValue={cellValue}
         label={''}

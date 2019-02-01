@@ -5,6 +5,7 @@
  */
 interface IColumn {
   name: string;
+  readOnly?: boolean;
 }
 
 /**
