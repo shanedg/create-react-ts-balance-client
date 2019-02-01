@@ -31,7 +31,7 @@ class CustomTableCell extends Component<ICustomTableCellProps, {}> {
 
   public render() {
     const active = this.props.active;
-    const cellValue = this.props.cellValue;
+    const cellValue = this.props.cellValue == null ? '' : this.props.cellValue;
     const readOnly = this.props.readOnly;
 
     const inner = (active && !readOnly) ?
