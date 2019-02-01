@@ -44,6 +44,7 @@ class App extends Component<{}, IAppState> {
       columns: [
         {
           name: 'id',
+          readOnly: true,
         },
         {
           name: 'name',
