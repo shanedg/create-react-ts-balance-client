@@ -15,8 +15,6 @@ import CustomTableHead from './CustomTableHead';
 interface ICustomTableProps {
   cols: IColumn[];
   onChange: any;
-  next: number | null;
-  prev: number | null;
   transactions: ITransaction[];
 }
 
@@ -38,12 +36,9 @@ class CustomTable extends Component<ICustomTableProps, {}> {
     return (
       <Paper elevation={4}>
         <Table>
-          {
-            this.props.prev == null &&
-            <CustomTableHead
-              cols={cols}
-            ></CustomTableHead>
-          }
+          <CustomTableHead
+            cols={cols}
+          ></CustomTableHead>
           <CustomTableBody
             cols={cols}
             onChange={this.props.onChange}
