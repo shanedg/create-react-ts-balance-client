@@ -11,7 +11,7 @@ import {
  * Custom table head props.
  */
 interface ICustomTableHeadProps {
-  cols: IColumn[];
+  columns: IColumn[];
 }
 
 /**
@@ -20,16 +20,16 @@ interface ICustomTableHeadProps {
 class CustomTableHead extends Component<ICustomTableHeadProps, {}> {
 
   public render() {
-    const cols: IColumn[] = this.props.cols;
+    const cols: IColumn[] = this.props.columns;
 
     return (
       <TableHead>
         <TableRow>
           {
-            cols.map((col: IColumn, j: number) => {
+            cols.map((column: IColumn, j: number) => {
               return (
                 <TableCell key={`th-${j}`}>
-                  {col.name}
+                  {column.name}
                 </TableCell>
               );
             })

@@ -13,7 +13,7 @@ import CustomInput from './CustomInput';
 interface ICustomTableCellProps {
   active: boolean;
   cellValue: any;
-  col: any;
+  column: any;
   onChange: any;
   onClick: any;
   onFocus: any;

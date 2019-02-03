@@ -10,12 +10,10 @@ import CustomTable from './CustomTable';
 import './App.scss';
 
 /**
- * Table, linked list probably.
+ * Table.
  */
 interface ITable {
-  cols: IColumn[];
-  next: number | null;
-  prev: number | null;
+  columns: IColumn[];
   transactions: ITransaction[];
 }
 
@@ -66,34 +64,25 @@ class App extends Component<{}, IAppState> {
     /**
      * [TODO] represent tables in state? should persist across sessions?
      */
-    const tables: any[] = transactions.length > 5
+    const tables: ITable[] = transactions.length > 5
       ? [
         {
-          cols: columns,
-          next: null,
-          prev: null,
+          columns,
           transactions: transactions.slice(0, 2),
         },
         {
-          cols: columns,
-          next: null,
-          prev: null,
+          columns,
           transactions: transactions.slice(2, 5),
         },
         {
-          cols: columns,
-          next: null,
-          prev: null,
+          columns,
           transactions: transactions.slice(5),
         },
       ]
       : [
         {
+          columns,
           transactions,
-          // tslint:disable-next-line object-literal-sort-keys
-          cols: columns,
-          next: null,
-          prev: null,
         },
       ];
 
@@ -106,16 +95,12 @@ class App extends Component<{}, IAppState> {
             tables &&
             tables.length > 0 &&
             tables.map((table: ITable, i: number) => {
-              const next = (i < tables.length - 1) ? (i + 1) : null;
-              const prev = (i > 0) ? (i - 1) : null;
 
               return (
                 <CustomTable
-                  cols={table.cols}
+                  columns={table.columns}
                   key={`table-${i}`}
                   onChange={this.transactionUpdates}
-                  next={next}
-                  prev={prev}
                   transactions={table.transactions}
                 ></CustomTable>
               );

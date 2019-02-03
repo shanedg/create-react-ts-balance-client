@@ -13,10 +13,8 @@ import CustomTableHead from './CustomTableHead';
  * Custom table props.
  */
 interface ICustomTableProps {
-  cols: IColumn[];
+  columns: IColumn[];
   onChange: any;
-  next: number | null;
-  prev: number | null;
   transactions: ITransaction[];
 }
 
@@ -32,20 +30,17 @@ class CustomTable extends Component<ICustomTableProps, {}> {
   }
 
   public render() {
-    const cols: IColumn[] = this.props.cols;
+    const cols: IColumn[] = this.props.columns;
     const transactions: ITransaction[] = this.props.transactions;
 
     return (
       <Paper elevation={4}>
         <Table>
-          {
-            this.props.prev == null &&
-            <CustomTableHead
-              cols={cols}
-            ></CustomTableHead>
-          }
+          <CustomTableHead
+            columns={cols}
+          ></CustomTableHead>
           <CustomTableBody
-            cols={cols}
+            columns={cols}
             onChange={this.props.onChange}
             transactions={transactions}
           ></CustomTableBody>

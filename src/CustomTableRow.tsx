@@ -19,7 +19,7 @@ const KEY_ESCAPE = 27;
  * Custom table row props.
  */
 interface ICustomTableRowProps {
-  cols: IColumn[];
+  columns: IColumn[];
   focused: boolean;
   onChange: any;
   onFocus: any;
@@ -53,7 +53,7 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
 
   public render() {
     const active: boolean = this.state.active;
-    const cols: IColumn[] = this.props.cols;
+    const cols: IColumn[] = this.props.columns;
     const row: ITransaction = this.state.rowData;
 
     return (
@@ -72,7 +72,7 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
               <CustomTableCell
                 active={active}
                 cellValue={row[col.name]}
-                col={col}
+                column={col}
                 key={`td-${i}`}
                 onChange={handler}
                 onClick={this.toggleRowActive}
