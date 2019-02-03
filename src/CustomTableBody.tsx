@@ -13,7 +13,7 @@ import CustomTableRow from './CustomTableRow';
  * Custom table body props.
  */
 interface ICustomTableBodyProps {
-  cols: IColumn[];
+  columns: IColumn[];
   onChange: any;
   transactions: ITransaction[];
 }
@@ -46,7 +46,7 @@ class CustomTableBody extends Component<ICustomTableBodyProps, ICustomTableBodyS
   }
 
   public render() {
-    const cols: IColumn[] = this.props.cols;
+    const cols: IColumn[] = this.props.columns;
     const handleChanges: any = this.props.onChange;
     const transactions: ITransaction[] = this.props.transactions;
 
@@ -66,7 +66,7 @@ class CustomTableBody extends Component<ICustomTableBodyProps, ICustomTableBodyS
 
             return (
               <CustomTableRow
-                cols={cols}
+                columns={cols}
                 focused={focused}
                 key={rowKey}
                 onChange={handleChanges}

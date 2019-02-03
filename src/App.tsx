@@ -13,7 +13,7 @@ import './App.scss';
  * Table.
  */
 interface ITable {
-  cols: IColumn[];
+  columns: IColumn[];
   transactions: ITransaction[];
 }
 
@@ -67,23 +67,22 @@ class App extends Component<{}, IAppState> {
     const tables: ITable[] = transactions.length > 5
       ? [
         {
-          cols: columns,
+          columns,
           transactions: transactions.slice(0, 2),
         },
         {
-          cols: columns,
+          columns,
           transactions: transactions.slice(2, 5),
         },
         {
-          cols: columns,
+          columns,
           transactions: transactions.slice(5),
         },
       ]
       : [
         {
+          columns,
           transactions,
-          // tslint:disable-next-line object-literal-sort-keys
-          cols: columns,
         },
       ];
 
@@ -99,7 +98,7 @@ class App extends Component<{}, IAppState> {
 
               return (
                 <CustomTable
-                  cols={table.cols}
+                  columns={table.columns}
                   key={`table-${i}`}
                   onChange={this.transactionUpdates}
                   transactions={table.transactions}
