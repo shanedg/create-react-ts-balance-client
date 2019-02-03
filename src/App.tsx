@@ -66,36 +66,36 @@ class App extends Component<{}, IAppState> {
     /**
      * [TODO] represent tables in state? should persist across sessions?
      */
-    const tables: any[] = transactions.length > 5 ?
-    [
-      {
-        cols: columns,
-        next: 1,
-        prev: null,
-        transactions: transactions.slice(0, 2),
-      },
-      {
-        cols: columns,
-        next: null,
-        prev: 0,
-        transactions: transactions.slice(2, 5),
-      },
-      {
-        cols: columns,
-        next: null,
-        prev: 0,
-        transactions: transactions.slice(5),
-      },
-    ] :
-    [
-      {
-        transactions,
-        // tslint:disable-next-line object-literal-sort-keys
-        cols: columns,
-        next: null,
-        prev: null,
-      },
-    ];
+    const tables: any[] = transactions.length > 5
+      ? [
+        {
+          cols: columns,
+          next: null,
+          prev: null,
+          transactions: transactions.slice(0, 2),
+        },
+        {
+          cols: columns,
+          next: null,
+          prev: null,
+          transactions: transactions.slice(2, 5),
+        },
+        {
+          cols: columns,
+          next: null,
+          prev: null,
+          transactions: transactions.slice(5),
+        },
+      ]
+      : [
+        {
+          transactions,
+          // tslint:disable-next-line object-literal-sort-keys
+          cols: columns,
+          next: null,
+          prev: null,
+        },
+      ];
 
     return (
       <div className="App">
@@ -135,9 +135,19 @@ class App extends Component<{}, IAppState> {
    */
   private fetchTransactions() {
     const baseURL: string = 'http://localhost';
-    const port: string = '1337';
-    const path: string = '/transactions/';
-    const endpoint = baseURL + (port == null || port === '' ? '' : `:${port}`) + path;
+    const port: string | null = '1337';
+    const path: string | null = '/transactions/';
+    /**
+     * [TODO] `endpoint` construction is a little overwrought, should be extracted to some utility.
+     */
+    const endpoint = baseURL + (
+      (port == null || port === '')
+        ? ''
+        : `:${port}`)
+      + ((path == null || path === '')
+        ? ''
+        : `${path}`
+      );
 
     fetch(endpoint)
       .then(
@@ -169,7 +179,7 @@ class App extends Component<{}, IAppState> {
   /**
    * Fetch/response chain promise rejection handler.
    * @param promiseFailure Rejected fetch promise value.
-   * Deduplicates identical rejections throughout promise chain.
+   * DRY rejection handling in fetch promise chain.
    */
   private fetchChainReject(promiseFailure: any) {
     this.transactionUpdates([]);

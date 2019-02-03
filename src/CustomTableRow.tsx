@@ -64,9 +64,9 @@ class CustomTableRow extends Component<ICustomTableRowProps, ICustomTableRowStat
              * Pass row column name into factory to get per-cell input handler.
              */
             const handler = this.inputHandlerFactory(col.name);
-            const readOnly: boolean = col.hasOwnProperty('readOnly') ?
-              !!col.readOnly :
-              false;
+            const readOnly: boolean = col.hasOwnProperty('readOnly')
+              ? !!col.readOnly
+              : false;
 
             return (
               <CustomTableCell
