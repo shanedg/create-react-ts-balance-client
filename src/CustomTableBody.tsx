@@ -60,9 +60,9 @@ class CustomTableBody extends Component<ICustomTableBodyProps, ICustomTableBodyS
             const rowKey = `tr-${i}`;
 
             const handleRowFocus = this.focusHandlerFactory(rowKey);
-            const focused = this.state.focus.hasOwnProperty(rowKey) ?
-              this.state.focus[rowKey] :
-              false;
+            const focused = this.state.focus.hasOwnProperty(rowKey)
+              ? this.state.focus[rowKey]
+              : false;
 
             return (
               <CustomTableRow
@@ -95,12 +95,11 @@ class CustomTableBody extends Component<ICustomTableBodyProps, ICustomTableBodyS
        * The following ternary operation allows us to handle the initial case and dynamically
        * construct the focus-tracking structure based on keys we've seen.
        */
-      const patchedFocusState: IFlag = Object.keys(this.state.focus).length > 0 ?
-
-        Object.keys(this.state.focus)
-          /**
-           * Prior state is not empty: filter the focused key out of the prior state.
-           */
+      const patchedFocusState: IFlag = Object.keys(this.state.focus).length > 0
+        /**
+         * Prior state is not empty: filter the focused key out of the prior state.
+         */
+        ? Object.keys(this.state.focus)
           .filter((key) => {
             return (key !== keyProp);
           })
@@ -115,12 +114,11 @@ class CustomTableBody extends Component<ICustomTableBodyProps, ICustomTableBodyS
               return reduced;
             },
             focusToPatch
-          ) :
-
-          /**
-           * Prior state is empty: new state is just the object conaining new focused key.
-           */
-          focusToPatch;
+          )
+        /**
+         * Prior state is empty: new state is just the object conaining new focused key.
+         */
+        : focusToPatch;
 
       this.setState({
         focus: patchedFocusState,
