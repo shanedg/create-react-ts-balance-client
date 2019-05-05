@@ -10,7 +10,7 @@
     "@types/react-dom": "16.0.11",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-scripts": "2.1.8",
+    "react-scripts": "3.0.0",
     "typescript": "3.2.4"
   },
   "scripts": {
@@ -29,6 +29,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "node-sass": "^4.11.0"
+    "node-sass": "^4.12.0"
   }
 }
